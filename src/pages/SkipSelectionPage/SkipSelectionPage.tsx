@@ -9,6 +9,19 @@ const SkipSelectionPage = () => {
     const [error, setError] = useState<string | null>(null);
     const [selectedSkipId, setSelectedSkipId] = useState<number | null>(null);
 
+    const handleDeselectSkip = () => {
+        setSelectedSkipId(null);
+    };
+
+    const handleProceed = () => {
+        if (selectedSkipId) {
+            const skip = skips.find(s => s.id === selectedSkipId);
+            alert(`Proceeding with ${skip?.size} Yard Skip.`);
+        } else {
+            alert("Please select a skip first.");
+        }
+    };
+
     useEffect(() => {
         const loadSkips = async () => {
             try {
@@ -60,6 +73,8 @@ const SkipSelectionPage = () => {
                     </div>
                     <SkipRecap
                         selectedSkip={skips.find(skip => skip.id === selectedSkipId) || null}
+                        onDeselect={handleDeselectSkip}
+                        onProceed={handleProceed}
                     />
                 </>
             )}

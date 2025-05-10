@@ -5,11 +5,13 @@ import type React from "react";
 
 interface SkipRecapProps {
     selectedSkip: Skip | null;
+    onDeselect: () => void;
+    onProceed: () => void;
 }
 
 const formatPrice = (price: number): string => `£${price.toFixed(2)}`;
 
-const SkipRecap: React.FC<SkipRecapProps> = ({ selectedSkip }) => {
+const SkipRecap: React.FC<SkipRecapProps> = ({ selectedSkip, onDeselect, onProceed }) => {
     if (!selectedSkip) {
         return null;
     }
@@ -31,12 +33,14 @@ const SkipRecap: React.FC<SkipRecapProps> = ({ selectedSkip }) => {
                     <span className="text-2xl font-bold mb-3 sm:mb-0 sm:mr-6">{formatPrice(totalPrice)}</span>
                     <div className="flex space-x-3">
                         <button
-                            className="bg-gray-600 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded-md transition-colors duration-300 text-sm"
+                            onClick={onDeselect}
+                            className="bg-gray-600 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded-md transition-colors duration-300 text-sm cursor-pointer"
                         >
                             <FontAwesomeIcon icon={faTimes} className="mr-1" /> Change
                         </button>
                         <button
-                            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-md transition-colors duration-300 flex items-center"
+                            onClick={onProceed}
+                            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-md transition-colors duration-300 flex items-center cursor-pointer"
                         >
                             Continue <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
                         </button>
