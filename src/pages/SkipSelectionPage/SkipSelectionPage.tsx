@@ -48,7 +48,7 @@ const SkipSelectionPage = () => {
             )}
             {!loading && !error && (
                 <>
-                    <div id="skipGrid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                    <div id="skipGrid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 pb-50 sm:pb-32">
                         {skips.map(skip => (
                             <SkipCard
                                 key={skip.id}
