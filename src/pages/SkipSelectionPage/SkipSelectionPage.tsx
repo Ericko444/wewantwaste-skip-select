@@ -48,6 +48,16 @@ const SkipSelectionPage = () => {
     };
     return (
         <>
+            <div className="container mx-auto px-4 pb-8 sm:pb-12">
+                <div className="text-center">
+                    <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
+                        Choose Your Skip Size
+                    </h1>
+                    <p className="text-md sm:text-lg text-gray-600 max-w-2xl mx-auto">
+                        Select the skip size that best suits your needs.
+                    </p>
+                </div>
+            </div>
             {loading && (
                 <div className="flex flex-col items-center justify-center py-8">
                     <div className="w-10 h-10 border-4 border-blue-400 border-t-transparent rounded-full animate-spin mb-4"></div>
