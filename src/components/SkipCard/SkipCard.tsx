@@ -18,7 +18,7 @@ const SkipCard: React.FC<SkipCardProps> = ({ skip, isSelected, onSelect }) => {
     const skipImagePlaceholder = (
         <div className="h-40 bg-gray-200 flex items-center justify-center rounded-t-xl mb-4 relative">
             <FontAwesomeIcon icon={faDumpster} className="text-5xl text-gray-400" />
-            <span className="absolute top-2 right-2 bg-blue-500 text-white text-xs font-semibold px-2 py-1 rounded">
+            <span className="absolute top-2 right-2 bg-blue-500 text-white text-xs font-semibold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
                 {skip.size} Yard
             </span>
         </div>
@@ -41,10 +41,10 @@ const SkipCard: React.FC<SkipCardProps> = ({ skip, isSelected, onSelect }) => {
         </div>
     ) : null;
 
-    const cardBaseClasses = "skip-card bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 cursor-pointer border-2";
+    const cardBaseClasses = "skip-card bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 ease-in-out cursor-pointer border-2";
     const cardStateClasses = isSelected
         ? "border-blue-500 ring-2 ring-blue-300 bg-blue-50"
-        : "border-transparent hover:border-blue-400";
+        : "border-transparent hover:border-blue-300 hover:shadow-xl hover:-translate-y-1";
 
 
     const buttonBaseClasses = "mt-4 w-full text-white font-semibold py-2.5 px-4 rounded-lg transition-colors duration-300 text-sm";
@@ -57,7 +57,7 @@ const SkipCard: React.FC<SkipCardProps> = ({ skip, isSelected, onSelect }) => {
     return (
         <div
             id={`skip-card-${skip.id}`}
-            className={`${cardBaseClasses} ${cardStateClasses}`}
+            className={`group ${cardBaseClasses} ${cardStateClasses}`}
             onClick={() => onSelect(skip.id)}
             role="button"
         >
