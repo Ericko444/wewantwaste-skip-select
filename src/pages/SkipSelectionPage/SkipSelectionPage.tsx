@@ -34,16 +34,30 @@ const SkipSelectionPage = () => {
         setSelectedSkipId(prevId => (prevId === id ? null : id));
     };
     return (
-        <div id="skipGrid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {skips.map(skip => (
-                <SkipCard
-                    key={skip.id}
-                    skip={skip}
-                    isSelected={selectedSkipId === skip.id}
-                    onSelect={handleSelectSkip}
-                />
-            ))}
-        </div>
+        <>
+            {loading && (
+                <div className="text-center py-8 text-lg font-semibold">
+                    Loading skips...
+                </div>
+            )}
+            {error && (
+                <div className="text-center py-8 text-red-600 font-semibold">
+                    {error}
+                </div>
+            )}
+            {!loading && !error && (
+                <div id="skipGrid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                    {skips.map(skip => (
+                        <SkipCard
+                            key={skip.id}
+                            skip={skip}
+                            isSelected={selectedSkipId === skip.id}
+                            onSelect={handleSelectSkip}
+                        />
+                    ))}
+                </div>
+            )}
+        </>
     );
 }
 
