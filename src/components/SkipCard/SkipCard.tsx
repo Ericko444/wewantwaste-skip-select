@@ -83,7 +83,7 @@ const SkipCard: React.FC<SkipCardProps> = ({ skip, isSelected, onSelect }) => {
 
                 <button
                     type="button"
-                    className={`${buttonBaseClasses} ${buttonStateClasses}`}
+                    className={`${buttonBaseClasses} ${buttonStateClasses} cursor-pointer`}
                 >
                     {buttonText}
                 </button>
