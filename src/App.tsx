@@ -1,8 +1,10 @@
+import { MainLayout } from '@/layouts';
+import { SkipSelectionPage } from '@/pages';
 function App() {
   return (
-    <>
-      <p className='text-3xl font-semibold'>We Want Waste</p>
-    </>
+    <MainLayout>
+      <SkipSelectionPage></SkipSelectionPage>
+    </MainLayout>
   )
 }
 
