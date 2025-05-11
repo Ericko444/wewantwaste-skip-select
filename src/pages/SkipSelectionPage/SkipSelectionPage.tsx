@@ -1,7 +1,7 @@
 import { fetchSkips } from "@/services";
 import type { LayoutView, Skip } from "@/types";
 import { useEffect, useState } from "react";
-import { Controls, SkipCard, SkipRecap } from "@/components";
+import { Controls, SkipCard, SkipRecap, SkipTableRow } from "@/components";
 
 const SkipSelectionPage = () => {
     const [skips, setSkips] = useState<Skip[]>([]);
@@ -76,16 +76,45 @@ const SkipSelectionPage = () => {
             )}
             {!loading && !error && (
                 <>
-                    <div id="skipGrid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 pb-50 sm:pb-32">
-                        {skips.map(skip => (
-                            <SkipCard
-                                key={skip.id}
-                                skip={skip}
-                                isSelected={selectedSkipId === skip.id}
-                                onSelect={handleSelectSkip}
-                            />
-                        ))}
-                    </div>
+                    {currentLayout === 'grid' && (
+                        <div id="skipGrid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 pb-50 sm:pb-32">
+                            {skips.map(skip => (
+                                <SkipCard
+                                    key={skip.id}
+                                    skip={skip}
+                                    isSelected={selectedSkipId === skip.id}
+                                    onSelect={handleSelectSkip}
+                                />
+                            ))}
+                        </div>
+                    )}
+
+                    {currentLayout === 'table' && (
+                        <div className="mb-12 bg-white rounded-xl shadow-md overflow-hidden">
+                            <table className="min-w-full divide-y divide-gray-200">
+                                <thead className="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Details</th>
+                                        <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Waste Type</th>
+                                        <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Permit Note</th>
+                                        <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price (inc. VAT)</th>
+                                        <th scope="col" className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="bg-white divide-y divide-gray-200">
+                                    {skips.map(skip => (
+                                        <SkipTableRow
+                                            key={skip.id}
+                                            skip={skip}
+                                            isSelected={selectedSkipId === skip.id}
+                                            onSelect={handleSelectSkip}
+                                        />
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+
                     <SkipRecap
                         selectedSkip={skips.find(skip => skip.id === selectedSkipId) || null}
                         onDeselect={handleDeselectSkip}
