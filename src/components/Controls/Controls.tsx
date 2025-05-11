@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThLarge, faList, faChevronDown, faSortAmountDown, faUndoAlt, faFilter } from '@fortawesome/free-solid-svg-icons';
+import { faThLarge, faList, faChevronDown, faSortAmountDown, faUndoAlt, faFilter, faRoad } from '@fortawesome/free-solid-svg-icons';
 import type { ActiveFilters, LayoutView, SortOption } from '@/types';
 
 interface ControlsProps {
@@ -40,6 +40,12 @@ const Controls: React.FC<ControlsProps> = ({
         { value: 'all', label: 'All Skips' },
         { value: true, label: 'Yes (Heavy Waste)' },
         { value: false, label: 'No (Light Waste Only)' },
+    ];
+
+    const permitFilterOptions: { value: 'all' | true | false; label: string }[] = [
+        { value: 'all', label: 'Any Permit Status' },
+        { value: true, label: 'Permit Needed' },
+        { value: false, label: 'Permit Not Needed' },
     ];
 
     return (
@@ -103,9 +109,9 @@ const Controls: React.FC<ControlsProps> = ({
                         {isFilterDropdownOpen && (
                             <div
                                 className="absolute z-20 mt-1 w-56 bg-white rounded-md shadow-lg border border-gray-200 py-1"
-                                onClick={() => setIsFilterDropdownOpen(false)}
                                 onMouseLeave={() => setIsFilterDropdownOpen(false)}
                             >
+                                {/* Waste options filter */}
                                 <div className="px-3 py-2">
                                     <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Waste Type</h4>
                                     {heavyWasteFilterOptions.map(option => (
@@ -113,6 +119,24 @@ const Controls: React.FC<ControlsProps> = ({
                                             key={String(option.value)}
                                             onClick={() => onFilterChange({ allowsHeavyWaste: option.value })}
                                             className={`w-full text-left block px-2 py-1.5 text-sm rounded hover:bg-gray-100 focus:outline-none ${activeFilters.allowsHeavyWaste === option.value ? 'font-semibold text-blue-600 bg-blue-50' : 'text-gray-700'}`}
+                                        >
+                                            {option.label}
+                                        </button>
+                                    ))}
+                                </div>
+
+                                {/* Road permit filter */}
+                                <div className="px-3 py-2">
+                                    <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5 flex items-center">
+                                        <FontAwesomeIcon icon={faRoad} className="mr-1.5 w-3.5" /> Road Permit
+                                    </h4>
+                                    {permitFilterOptions.map(option => (
+                                        <button
+                                            key={`rp-${String(option.value)}`}
+                                            onClick={() => {
+                                                onFilterChange({ allowedOnRoad: option.value });
+                                            }}
+                                            className={`w-full text-left block px-2 py-1.5 text-sm rounded hover:bg-gray-100 focus:outline-none ${activeFilters.allowedOnRoad === option.value ? 'font-semibold text-blue-600 bg-blue-50' : 'text-gray-700'}`}
                                         >
                                             {option.label}
                                         </button>

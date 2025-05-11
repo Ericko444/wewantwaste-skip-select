@@ -5,6 +5,7 @@ import { Controls, SkipCard, SkipRecap, SkipTableRow } from "@/components";
 
 const defaultFilters: ActiveFilters = {
     allowsHeavyWaste: 'all',
+    allowedOnRoad: 'all',
 };
 
 const SkipSelectionPage = () => {
@@ -55,7 +56,12 @@ const SkipSelectionPage = () => {
     };
 
     const handleFilterChange = (updatedFilter: Partial<ActiveFilters>) => {
-        setActiveFilters(prevFilters => ({ ...prevFilters, ...updatedFilter }));
+        setActiveFilters(prevFilters => {
+            const newFilters = { ...prevFilters, ...updatedFilter };
+            if (newFilters.allowsHeavyWaste === undefined) newFilters.allowsHeavyWaste = 'all';
+            if (newFilters.allowedOnRoad === undefined) newFilters.allowedOnRoad = 'all';
+            return newFilters;
+        });
     };
 
     const handleResetControls = () => {
@@ -85,6 +91,11 @@ const SkipSelectionPage = () => {
 
         if (activeFilters.allowsHeavyWaste !== 'all') {
             tempSkips = tempSkips.filter(skip => skip.allows_heavy_waste === activeFilters.allowsHeavyWaste);
+        }
+
+        if (activeFilters.allowedOnRoad !== 'all') {
+            const permitRequiredFilter = activeFilters.allowedOnRoad === true; // true if filtering for "Permit Likely Needed"
+            tempSkips = tempSkips.filter(skip => !skip.allowed_on_road === permitRequiredFilter);
         }
 
 
