@@ -4,3 +4,4 @@ export * from './SkipCard';
 export * from './SkipRecap';
 export * from './Controls';
 export * from './SkipTableRow';
+export * from './SkipList';

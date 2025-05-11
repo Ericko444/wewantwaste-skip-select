@@ -41,7 +41,7 @@ const NavItem: React.FC<NavItemProps> = ({ icon, label, isActive, isCompleted, i
             type="button"
             onClick={onClick}
             className={`flex items-baseline group focus:outline-none text-left py-1
-                  ${isActive || isCompleted ? 'opacity-100' : 'opacity-75 hover:opacity-100 transition-opacity'}`}
+                  ${isActive || isCompleted ? 'opacity-100' : 'opacity-75 hover:opacity-100 transition-opacity'} cursor-pointer`}
             disabled={!isActive && !isCompleted}
         >
             <span className={`hidden sm:inline-block mr-1.5 sm:mr-2 ${iconColor} group-hover:text-blue-500 transition-colors`}>
@@ -54,7 +54,7 @@ const NavItem: React.FC<NavItemProps> = ({ icon, label, isActive, isCompleted, i
                 {!isLast && (
                     <FontAwesomeIcon
                         icon={faChevronRight}
-                        className="text-gray-300 ml-1.5 sm:ml-3 text-xs relative top-[2px] sm:top-[1px]"
+                        className="text-gray-300 ml-1.5 sm:ml-3 text-xs relative top-[2px] sm:top-[2px]"
                     />
                 )}
             </span>
