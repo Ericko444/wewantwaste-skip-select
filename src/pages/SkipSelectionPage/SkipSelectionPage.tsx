@@ -1,13 +1,14 @@
 import { fetchSkips } from "@/services";
-import type { Skip } from "@/types";
+import type { LayoutView, Skip } from "@/types";
 import { useEffect, useState } from "react";
-import { SkipCard, SkipRecap } from "@/components";
+import { Controls, SkipCard, SkipRecap } from "@/components";
 
 const SkipSelectionPage = () => {
     const [skips, setSkips] = useState<Skip[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [selectedSkipId, setSelectedSkipId] = useState<number | null>(null);
+    const [currentLayout, setCurrentLayout] = useState<LayoutView>('grid');
 
     const handleDeselectSkip = () => {
         setSelectedSkipId(null);
@@ -58,6 +59,10 @@ const SkipSelectionPage = () => {
                     </p>
                 </div>
             </div>
+            <Controls
+                currentLayout={currentLayout}
+                onLayoutChange={setCurrentLayout}
+            />
             {loading && (
                 <div className="flex flex-col items-center justify-center py-8">
                     <div className="w-10 h-10 border-4 border-blue-400 border-t-transparent rounded-full animate-spin mb-4"></div>
