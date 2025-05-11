@@ -1,0 +1,24 @@
+name: Deploy Dockerized App to Vercel
+
+on:
+  push:
+    branches:
+      - dev
+jobs:
+  deploy_production_docker:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/dev' # Adjust branch if needed
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to Vercel (Production Docker)
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-project-name: "your-vercel-project-name"
+          scope: ${{ github.repository_owner }}
+          prod: true
