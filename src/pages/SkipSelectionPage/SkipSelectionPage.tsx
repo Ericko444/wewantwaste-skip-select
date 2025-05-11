@@ -49,6 +49,10 @@ const SkipSelectionPage = () => {
         setSelectedSkipId(prevId => (prevId === id ? null : id));
     };
 
+    const handleResetControls = () => {
+        setCurrentSort('default');
+    };
+
     const processedSkips = useMemo(() => {
         let tempSkips = [...skips];
 
@@ -75,6 +79,8 @@ const SkipSelectionPage = () => {
 
     const currentSelectedSkip = selectedSkipId ? skips.find(s => s.id === selectedSkipId) || null : null;
 
+    const areControlsActive = currentSort !== 'default'
+
     return (
         <>
             <div className="container mx-auto px-4 pb-8 sm:pb-12">
@@ -92,6 +98,8 @@ const SkipSelectionPage = () => {
                 onLayoutChange={setCurrentLayout}
                 currentSort={currentSort}
                 onSortChange={setCurrentSort}
+                areControlsActive={areControlsActive}
+                onResetControls={handleResetControls}
             />
             {loading && (
                 <div className="flex flex-col items-center justify-center py-8">

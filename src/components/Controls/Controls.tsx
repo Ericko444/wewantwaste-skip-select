@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThLarge, faList, faChevronDown, faSortAmountDown } from '@fortawesome/free-solid-svg-icons';
+import { faThLarge, faList, faChevronDown, faSortAmountDown, faUndoAlt } from '@fortawesome/free-solid-svg-icons';
 import type { LayoutView, SortOption } from '@/types';
 
 interface ControlsProps {
@@ -8,6 +8,8 @@ interface ControlsProps {
     onLayoutChange: (layout: LayoutView) => void;
     currentSort: SortOption;
     onSortChange: (sortOption: SortOption) => void;
+    onResetControls?: () => void;
+    areControlsActive?: boolean;
 }
 
 const Controls: React.FC<ControlsProps> = ({
@@ -15,6 +17,8 @@ const Controls: React.FC<ControlsProps> = ({
     onLayoutChange,
     currentSort,
     onSortChange,
+    onResetControls,
+    areControlsActive
 }) => {
 
     const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
@@ -74,7 +78,19 @@ const Controls: React.FC<ControlsProps> = ({
                             </div>
                         )}
                     </div>
+
+                    {onResetControls && areControlsActive && (
+                        <button
+                            onClick={onResetControls}
+                            className="flex items-center space-x-1.5 bg-white border border-gray-300 text-gray-700 rounded-lg px-3 py-2 text-sm hover:border-gray-400 hover:text-blue-600 focus:outline-none"
+                            title="Reset Sort & Search"
+                        >
+                            <FontAwesomeIcon icon={faUndoAlt} className="w-3.5" />
+                            <span>Reset</span>
+                        </button>
+                    )}
                 </div>
+
             </div>
         </section>
     );
