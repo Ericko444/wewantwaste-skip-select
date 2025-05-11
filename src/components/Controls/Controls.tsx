@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThLarge, faList, faChevronDown, faSortAmountDown, faUndoAlt } from '@fortawesome/free-solid-svg-icons';
-import type { LayoutView, SortOption } from '@/types';
+import { faThLarge, faList, faChevronDown, faSortAmountDown, faUndoAlt, faFilter } from '@fortawesome/free-solid-svg-icons';
+import type { ActiveFilters, LayoutView, SortOption } from '@/types';
 
 interface ControlsProps {
     currentLayout: LayoutView;
     onLayoutChange: (layout: LayoutView) => void;
     currentSort: SortOption;
     onSortChange: (sortOption: SortOption) => void;
+    activeFilters: ActiveFilters;
+    onFilterChange: (filters: Partial<ActiveFilters>) => void;
     onResetControls?: () => void;
     areControlsActive?: boolean;
 }
@@ -17,11 +19,14 @@ const Controls: React.FC<ControlsProps> = ({
     onLayoutChange,
     currentSort,
     onSortChange,
+    activeFilters,
+    onFilterChange,
     onResetControls,
-    areControlsActive
+    areControlsActive,
 }) => {
 
     const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
+    const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
 
     const sortOptions: { value: SortOption; label: string }[] = [
         { value: 'default', label: 'Default Order' },
@@ -30,6 +35,13 @@ const Controls: React.FC<ControlsProps> = ({
         { value: 'size-asc', label: 'Size: Small to Large' },
         { value: 'size-desc', label: 'Size: Large to Small' },
     ];
+
+    const heavyWasteFilterOptions: { value: 'all' | true | false; label: string }[] = [
+        { value: 'all', label: 'All Skips' },
+        { value: true, label: 'Yes (Heavy Waste)' },
+        { value: false, label: 'No (Light Waste Only)' },
+    ];
+
     return (
         <section className="mb-6 md:mb-8 bg-white rounded-lg shadow-sm p-3 sm:p-4">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -75,6 +87,37 @@ const Controls: React.FC<ControlsProps> = ({
                                         {option.label}
                                     </button>
                                 ))}
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="relative">
+                        <button
+                            onClick={() => { setIsFilterDropdownOpen(!isFilterDropdownOpen); setIsSortDropdownOpen(false); }}
+                            className="flex items-center space-x-1.5 bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm hover:border-gray-400 focus:outline-none"
+                        >
+                            <FontAwesomeIcon icon={faFilter} className="text-blue-600 w-3.5" />
+                            <span>Filter</span>
+                            <FontAwesomeIcon icon={faChevronDown} className={`text-xs transition-transform ${isFilterDropdownOpen ? 'rotate-180' : ''}`} />
+                        </button>
+                        {isFilterDropdownOpen && (
+                            <div
+                                className="absolute z-20 mt-1 w-56 bg-white rounded-md shadow-lg border border-gray-200 py-1"
+                                onClick={() => setIsFilterDropdownOpen(false)}
+                                onMouseLeave={() => setIsFilterDropdownOpen(false)}
+                            >
+                                <div className="px-3 py-2">
+                                    <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Waste Type</h4>
+                                    {heavyWasteFilterOptions.map(option => (
+                                        <button
+                                            key={String(option.value)}
+                                            onClick={() => onFilterChange({ allowsHeavyWaste: option.value })}
+                                            className={`w-full text-left block px-2 py-1.5 text-sm rounded hover:bg-gray-100 focus:outline-none ${activeFilters.allowsHeavyWaste === option.value ? 'font-semibold text-blue-600 bg-blue-50' : 'text-gray-700'}`}
+                                        >
+                                            {option.label}
+                                        </button>
+                                    ))}
+                                </div>
                             </div>
                         )}
                     </div>

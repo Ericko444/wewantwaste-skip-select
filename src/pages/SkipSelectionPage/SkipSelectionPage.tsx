@@ -1,7 +1,11 @@
 import { fetchSkips } from "@/services";
-import type { LayoutView, Skip, SortOption } from "@/types";
+import type { ActiveFilters, LayoutView, Skip, SortOption } from "@/types";
 import { useEffect, useMemo, useState } from "react";
 import { Controls, SkipCard, SkipRecap, SkipTableRow } from "@/components";
+
+const defaultFilters: ActiveFilters = {
+    allowsHeavyWaste: 'all',
+};
 
 const SkipSelectionPage = () => {
     const [skips, setSkips] = useState<Skip[]>([]);
@@ -10,6 +14,7 @@ const SkipSelectionPage = () => {
     const [selectedSkipId, setSelectedSkipId] = useState<number | null>(null);
     const [currentLayout, setCurrentLayout] = useState<LayoutView>('grid');
     const [currentSort, setCurrentSort] = useState<SortOption>('default');
+    const [activeFilters, setActiveFilters] = useState<ActiveFilters>(defaultFilters);
 
     const handleDeselectSkip = () => {
         setSelectedSkipId(null);
@@ -49,8 +54,13 @@ const SkipSelectionPage = () => {
         setSelectedSkipId(prevId => (prevId === id ? null : id));
     };
 
+    const handleFilterChange = (updatedFilter: Partial<ActiveFilters>) => {
+        setActiveFilters(prevFilters => ({ ...prevFilters, ...updatedFilter }));
+    };
+
     const handleResetControls = () => {
         setCurrentSort('default');
+        setActiveFilters(defaultFilters);
     };
 
     const processedSkips = useMemo(() => {
@@ -73,13 +83,17 @@ const SkipSelectionPage = () => {
             });
         }
 
+        if (activeFilters.allowsHeavyWaste !== 'all') {
+            tempSkips = tempSkips.filter(skip => skip.allows_heavy_waste === activeFilters.allowsHeavyWaste);
+        }
+
 
         return tempSkips;
-    }, [skips, currentSort]);
+    }, [skips, currentSort, activeFilters]);
 
     const currentSelectedSkip = selectedSkipId ? skips.find(s => s.id === selectedSkipId) || null : null;
 
-    const areControlsActive = currentSort !== 'default'
+    const areControlsActive = currentSort !== 'default' || activeFilters.allowsHeavyWaste !== 'all';
 
     return (
         <>
@@ -98,6 +112,8 @@ const SkipSelectionPage = () => {
                 onLayoutChange={setCurrentLayout}
                 currentSort={currentSort}
                 onSortChange={setCurrentSort}
+                activeFilters={activeFilters}
+                onFilterChange={handleFilterChange}
                 areControlsActive={areControlsActive}
                 onResetControls={handleResetControls}
             />
