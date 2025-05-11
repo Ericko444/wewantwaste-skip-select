@@ -1,5 +1,5 @@
 import type { Skip } from "@/types";
-import { faTruckPickup, faCheckCircle, faTimesCircle, faExclamationTriangle, faDumpster } from "@fortawesome/free-solid-svg-icons";
+import { faCheckCircle, faTimesCircle, faExclamationTriangle, faDumpster } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface SkipTableRowProps {

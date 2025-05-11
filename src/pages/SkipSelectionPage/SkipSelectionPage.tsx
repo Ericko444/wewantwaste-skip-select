@@ -1,6 +1,6 @@
 import { fetchSkips } from "@/services";
-import type { LayoutView, Skip } from "@/types";
-import { useEffect, useState } from "react";
+import type { LayoutView, Skip, SortOption } from "@/types";
+import { useEffect, useMemo, useState } from "react";
 import { Controls, SkipCard, SkipRecap, SkipTableRow } from "@/components";
 
 const SkipSelectionPage = () => {
@@ -9,6 +9,7 @@ const SkipSelectionPage = () => {
     const [error, setError] = useState<string | null>(null);
     const [selectedSkipId, setSelectedSkipId] = useState<number | null>(null);
     const [currentLayout, setCurrentLayout] = useState<LayoutView>('grid');
+    const [currentSort, setCurrentSort] = useState<SortOption>('default');
 
     const handleDeselectSkip = () => {
         setSelectedSkipId(null);
@@ -47,6 +48,33 @@ const SkipSelectionPage = () => {
     const handleSelectSkip = (id: number) => {
         setSelectedSkipId(prevId => (prevId === id ? null : id));
     };
+
+    const processedSkips = useMemo(() => {
+        let tempSkips = [...skips];
+
+
+        // Sort skips by price or size based on the currentSort state
+        // If currentSort is 'default', we don't need to sort
+        if (currentSort !== 'default') {
+            tempSkips.sort((a, b) => {
+                const priceA = a.price_before_vat * (1 + a.vat / 100);
+                const priceB = b.price_before_vat * (1 + b.vat / 100);
+                switch (currentSort) {
+                    case 'price-asc': return priceA - priceB;
+                    case 'price-desc': return priceB - priceA;
+                    case 'size-asc': return a.size - b.size;
+                    case 'size-desc': return b.size - a.size;
+                    default: return 0;
+                }
+            });
+        }
+
+
+        return tempSkips;
+    }, [skips, currentSort]);
+
+    const currentSelectedSkip = selectedSkipId ? skips.find(s => s.id === selectedSkipId) || null : null;
+
     return (
         <>
             <div className="container mx-auto px-4 pb-8 sm:pb-12">
@@ -62,6 +90,8 @@ const SkipSelectionPage = () => {
             <Controls
                 currentLayout={currentLayout}
                 onLayoutChange={setCurrentLayout}
+                currentSort={currentSort}
+                onSortChange={setCurrentSort}
             />
             {loading && (
                 <div className="flex flex-col items-center justify-center py-8">
@@ -78,7 +108,7 @@ const SkipSelectionPage = () => {
                 <>
                     {currentLayout === 'grid' && (
                         <div id="skipGrid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 pb-50 sm:pb-32">
-                            {skips.map(skip => (
+                            {processedSkips.map(skip => (
                                 <SkipCard
                                     key={skip.id}
                                     skip={skip}
@@ -102,7 +132,7 @@ const SkipSelectionPage = () => {
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200">
-                                    {skips.map(skip => (
+                                    {processedSkips.map(skip => (
                                         <SkipTableRow
                                             key={skip.id}
                                             skip={skip}
@@ -116,7 +146,7 @@ const SkipSelectionPage = () => {
                     )}
 
                     <SkipRecap
-                        selectedSkip={skips.find(skip => skip.id === selectedSkipId) || null}
+                        selectedSkip={currentSelectedSkip}
                         onDeselect={handleDeselectSkip}
                         onProceed={handleProceed}
                     />
