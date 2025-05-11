@@ -55,14 +55,14 @@ const Controls: React.FC<ControlsProps> = ({
                     <div className="flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
                         <button
                             onClick={() => onLayoutChange('grid')}
-                            className={`p-2 rounded-md focus:outline-none ${currentLayout === 'grid' ? 'bg-white shadow text-blue-600' : 'text-gray-500 hover:bg-gray-200'}`}
+                            className={`p-2 rounded-md focus:outline-none ${currentLayout === 'grid' ? 'bg-white shadow text-blue-600' : 'text-gray-500 hover:bg-gray-200'} cursor-pointer`}
                             title="Grid View" aria-pressed={currentLayout === 'grid'}
                         >
                             <FontAwesomeIcon icon={faThLarge} />
                         </button>
                         <button
                             onClick={() => onLayoutChange('table')}
-                            className={`p-2 rounded-md focus:outline-none ${currentLayout === 'table' ? 'bg-white shadow text-blue-600' : 'text-gray-500 hover:bg-gray-200'}`}
+                            className={`p-2 rounded-md focus:outline-none ${currentLayout === 'table' ? 'bg-white shadow text-blue-600' : 'text-gray-500 hover:bg-gray-200'} cursor-pointer`}
                             title="Table View" aria-pressed={currentLayout === 'table'}
                         >
                             <FontAwesomeIcon icon={faList} />
@@ -72,7 +72,7 @@ const Controls: React.FC<ControlsProps> = ({
                     <div className="relative">
                         <button
                             onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
-                            className="flex items-center space-x-1.5 bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm hover:border-gray-400 focus:outline-none"
+                            className="flex items-center space-x-1.5 bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm hover:border-gray-400 focus:outline-none cursor-pointer"
                         >
                             <FontAwesomeIcon icon={faSortAmountDown} className="text-blue-600 w-3.5" />
                             <span>Sort</span>
@@ -100,7 +100,7 @@ const Controls: React.FC<ControlsProps> = ({
                     <div className="relative">
                         <button
                             onClick={() => { setIsFilterDropdownOpen(!isFilterDropdownOpen); setIsSortDropdownOpen(false); }}
-                            className="flex items-center space-x-1.5 bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm hover:border-gray-400 focus:outline-none"
+                            className="flex items-center space-x-1.5 bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm hover:border-gray-400 focus:outline-none cursor-pointer"
                         >
                             <FontAwesomeIcon icon={faFilter} className="text-blue-600 w-3.5" />
                             <span>Filter</span>
@@ -149,7 +149,7 @@ const Controls: React.FC<ControlsProps> = ({
                     {onResetControls && areControlsActive && (
                         <button
                             onClick={onResetControls}
-                            className="flex items-center space-x-1.5 bg-white border border-gray-300 text-gray-700 rounded-lg px-3 py-2 text-sm hover:border-gray-400 hover:text-blue-600 focus:outline-none"
+                            className="flex items-center space-x-1.5 bg-white border border-gray-300 text-gray-700 rounded-lg px-3 py-2 text-sm hover:border-gray-400 hover:text-blue-600 focus:outline-none cursor-pointer"
                             title="Reset Sort & Search"
                         >
                             <FontAwesomeIcon icon={faUndoAlt} className="w-3.5" />
