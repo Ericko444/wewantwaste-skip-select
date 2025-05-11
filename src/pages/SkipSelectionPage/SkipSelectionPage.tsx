@@ -1,7 +1,7 @@
 import { fetchSkips } from "@/services";
 import type { ActiveFilters, LayoutView, Skip, SortOption } from "@/types";
 import { useEffect, useMemo, useState } from "react";
-import { Controls, SkipCard, SkipList, SkipRecap, SkipTableRow } from "@/components";
+import { Controls, SkipList, SkipRecap } from "@/components";
 
 const defaultFilters: ActiveFilters = {
     allowsHeavyWaste: 'all',

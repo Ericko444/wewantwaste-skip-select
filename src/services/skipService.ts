@@ -1,6 +1,5 @@
 import type { Skip } from "@/types";
-
-const API_URL = "https://app.wewantwaste.co.uk/api/skips/by-location?postcode=NR32&area=Lowestoft";
+import { API_URL } from "@/lib/config";
 
 export const fetchSkips = async (): Promise<Skip[]> => {
     const response = await fetch(API_URL);
