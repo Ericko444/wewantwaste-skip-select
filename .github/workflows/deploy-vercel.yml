@@ -1,24 +1,27 @@
-name: Manual Deploy to Vercel
+# An example, as vercel already has a built-in CI/CD for deployment.
+# I just added it here if needed for another deployment method.
 
-on:
-  push:
-    branches:
-      - dev
-jobs:
-  deploy_production:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/dev' # Adjust branch if needed
+# name: Manual Deploy to Vercel
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+# on:
+#   push:
+#     branches:
+#       - dev
+# jobs:
+#   deploy_production:
+#     runs-on: ubuntu-latest
+#     if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
 
-      - name: Manual Deploy to Vercel
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-project-name: "wewantwaste-skip-select"
-          scope: ${{ github.repository_owner }}
-          prod: true
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+
+#       - name: Manual Deploy to Vercel
+#         uses: amondnet/vercel-action@v25
+#         with:
+#           vercel-token: ${{ secrets.VERCEL_TOKEN }}
+#           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+#           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+#           vercel-project-name: "wewantwaste-skip-select"
+#           scope: ${{ github.repository_owner }}
+#           prod: true

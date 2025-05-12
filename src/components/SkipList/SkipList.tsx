@@ -2,7 +2,7 @@ import type { LayoutView, Skip } from "@/types";
 import { faBoxOpen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SkipCard, SkipTableRow } from "@/components";
-import type React from "react";
+import React from "react";
 
 interface SkipList {
     skips: Skip[];

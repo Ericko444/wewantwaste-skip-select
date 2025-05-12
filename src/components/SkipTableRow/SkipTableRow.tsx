@@ -1,6 +1,7 @@
 import type { Skip } from "@/types";
 import { faCheckCircle, faTimesCircle, faExclamationTriangle, faDumpster } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from "react";
 
 interface SkipTableRowProps {
     skip: Skip;
@@ -66,4 +67,4 @@ const SkipTableRow: React.FC<SkipTableRowProps> = ({ skip, isSelected, onSelect 
     );
 };
 
-export default SkipTableRow;
+export default React.memo(SkipTableRow);
