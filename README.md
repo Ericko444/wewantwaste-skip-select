@@ -22,7 +22,7 @@
 *   **Build Tool:** Vite
 *   **Version Control:** Git & GitHub
 *   **Containerization:** Docker
-*   **Deployment:** Vercel
+*   **Deployment:** Github Actions (Only an example), Vercel (Has already a built-in CI/CD)
 
 ## Getting Started / How to Run Locally
 
@@ -47,8 +47,14 @@
 
 ### UI/UX Decisions & Improvements
 
-*   **Modern Visual Refresh:** Used a lighter theme, new typography and color palette. 
+*   **Modern Visual Refresh:** Used a lighter theme, a new typography, a new color palette and some UI animations. 
 *   **Dual View Layout (Grid & Table):** Implemented a layout toggle allowing users to switch between a visual Grid View (using `SkipCard` components) and a more data-dense Table View (`SkipTableRow`). The grid view is useful for a quick visual scan, while the table view can be used to compare specific attributes across multiple skips.
+*   **State Management:** Primarily using React's built-in `useState` and `useMemo` hooks for local component state and derived data (e.g., processed skip list). `useCallback` is used for memoizing event handlers passed to memoized child components.
+*   **Performance Optimization (Memoization):**
+    *   `React.memo` is utilized for `SkipCard` and `SkipTableRow` components to prevent unnecessary re-renders when their props have not changed, especially beneficial when displaying lists that update frequently due to parent state changes (like selection or layout toggles).
+    *   Event handlers passed to these memoized components are wrapped in `useCallback` to maintain referential stability.
+*   **Code Quality & Maintainability (Constants/Enums):**
+    *   TypeScript enums and constant objects (e.g., in `src/types/constants.ts`) are used for defining layout view types, sort options, and filter criteria values. This enhances type safety, reduces the use of "magic strings," and improves code readability and maintainability.
 *   **Responsive Design:**
     *   **Mobile-First Considerations:** While the desktop view was a primary reference, responsive design was implemented to ensure usability on various screen sizes.
     *   **Controls & Navigation:** Header navigation and control elements (sort, filter buttons) are designed to wrap or adjust gracefully on smaller screens.
@@ -65,6 +71,9 @@
 *   **Memoization for Performance:** The `useMemo` hook is employed to calculate `processedSkips` (the list of skips to display after filtering, and sorting). This ensures that the computationally intensive processing of the skip list only re-runs when relevant dependencies (`allSkips`, `currentSort`, `activeFilters`) change, optimizing rendering performance.
 *   **Data Integrity:** The original `allSkips` array is never mutated directly. Filtering and sorting operations always work on a copy of the array to maintain data integrity and ensure predictable state updates.
 
+### Further Improvements
+*   Integrate with a live API and implement dynamic pagination, robust error handling and loading states.
+*   Develop and integrate all the features of the other pages/steps.
 
 ## Author
 

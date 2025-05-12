@@ -1,4 +1,4 @@
-# An example, as vercel already has a built-in GitHub Action for deployment.
+# An example, as vercel already has a built-in CI/CD for deployment.
 # I just added it here if needed for another deployment method.
 
 # name: Manual Deploy to Vercel
