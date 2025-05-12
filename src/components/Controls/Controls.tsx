@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThLarge, faList, faChevronDown, faSortAmountDown, faUndoAlt, faFilter, faRoad } from '@fortawesome/free-solid-svg-icons';
-import type { ActiveFilters, LayoutView, SortOption } from '@/types';
+import { LayoutView, SortOption, type ActiveFilters, type TernaryBooleanFilter } from '@/types';
 
 interface ControlsProps {
     currentLayout: LayoutView;
@@ -29,20 +29,20 @@ const Controls: React.FC<ControlsProps> = ({
     const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
 
     const sortOptions: { value: SortOption; label: string }[] = [
-        { value: 'default', label: 'Default Order' },
-        { value: 'price-asc', label: 'Price: Low to High' },
-        { value: 'price-desc', label: 'Price: High to Low' },
-        { value: 'size-asc', label: 'Size: Small to Large' },
-        { value: 'size-desc', label: 'Size: Large to Small' },
+        { value: SortOption.DEFAULT, label: 'Default Order' },
+        { value: SortOption.PRICE_ASC, label: 'Price: Low to High' },
+        { value: SortOption.PRICE_DESC, label: 'Price: High to Low' },
+        { value: SortOption.SIZE_ASC, label: 'Size: Small to Large' },
+        { value: SortOption.SIZE_DESC, label: 'Size: Large to Small' },
     ];
 
-    const heavyWasteFilterOptions: { value: 'all' | true | false; label: string }[] = [
+    const heavyWasteFilterOptions: { value: TernaryBooleanFilter; label: string }[] = [
         { value: 'all', label: 'All Skips' },
         { value: true, label: 'Yes (Heavy Waste)' },
         { value: false, label: 'No (Light Waste Only)' },
     ];
 
-    const permitFilterOptions: { value: 'all' | true | false; label: string }[] = [
+    const permitFilterOptions: { value: TernaryBooleanFilter; label: string }[] = [
         { value: 'all', label: 'Any Permit Status' },
         { value: true, label: 'Permit Needed' },
         { value: false, label: 'Permit Not Needed' },
@@ -54,16 +54,16 @@ const Controls: React.FC<ControlsProps> = ({
                 <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                     <div className="flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
                         <button
-                            onClick={() => onLayoutChange('grid')}
-                            className={`p-2 rounded-md focus:outline-none ${currentLayout === 'grid' ? 'bg-white shadow text-blue-600' : 'text-gray-500 hover:bg-gray-200'} cursor-pointer`}
-                            title="Grid View" aria-pressed={currentLayout === 'grid'}
+                            onClick={() => onLayoutChange(LayoutView.GRID)}
+                            className={`p-2 rounded-md focus:outline-none ${currentLayout === LayoutView.GRID ? 'bg-white shadow text-blue-600' : 'text-gray-500 hover:bg-gray-200'} cursor-pointer`}
+                            title="Grid View" aria-pressed={currentLayout === LayoutView.GRID}
                         >
                             <FontAwesomeIcon icon={faThLarge} />
                         </button>
                         <button
-                            onClick={() => onLayoutChange('table')}
-                            className={`p-2 rounded-md focus:outline-none ${currentLayout === 'table' ? 'bg-white shadow text-blue-600' : 'text-gray-500 hover:bg-gray-200'} cursor-pointer`}
-                            title="Table View" aria-pressed={currentLayout === 'table'}
+                            onClick={() => onLayoutChange(LayoutView.TABLE)}
+                            className={`p-2 rounded-md focus:outline-none ${currentLayout === LayoutView.TABLE ? 'bg-white shadow text-blue-600' : 'text-gray-500 hover:bg-gray-200'} cursor-pointer`}
+                            title="Table View" aria-pressed={currentLayout === LayoutView.TABLE}
                         >
                             <FontAwesomeIcon icon={faList} />
                         </button>

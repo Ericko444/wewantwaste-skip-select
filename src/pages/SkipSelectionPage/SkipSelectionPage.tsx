@@ -1,5 +1,5 @@
 import { fetchSkips } from "@/services";
-import type { ActiveFilters, LayoutView, Skip, SortOption } from "@/types";
+import { DEFAULT_FILTERS, LayoutView, SortOption, type ActiveFilters, type Skip } from "@/types";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Controls, SkipList, SkipRecap } from "@/components";
 
@@ -13,9 +13,9 @@ const SkipSelectionPage = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [selectedSkipId, setSelectedSkipId] = useState<number | null>(null);
-    const [currentLayout, setCurrentLayout] = useState<LayoutView>('grid');
-    const [currentSort, setCurrentSort] = useState<SortOption>('default');
-    const [activeFilters, setActiveFilters] = useState<ActiveFilters>(defaultFilters);
+    const [currentLayout, setCurrentLayout] = useState<LayoutView>(LayoutView.GRID);
+    const [currentSort, setCurrentSort] = useState<SortOption>(SortOption.DEFAULT);
+    const [activeFilters, setActiveFilters] = useState<ActiveFilters>(DEFAULT_FILTERS);
 
     const handleDeselectSkip = useCallback(() => {
         setSelectedSkipId(null);
@@ -65,8 +65,8 @@ const SkipSelectionPage = () => {
     }, []);
 
     const handleResetControls = useCallback(() => {
-        setCurrentSort('default');
-        setActiveFilters(defaultFilters);
+        setCurrentSort(SortOption.DEFAULT);
+        setActiveFilters(DEFAULT_FILTERS);
     }, []);
 
     const processedSkips = useMemo(() => {
@@ -80,10 +80,10 @@ const SkipSelectionPage = () => {
                 const priceA = a.price_before_vat * (1 + a.vat / 100);
                 const priceB = b.price_before_vat * (1 + b.vat / 100);
                 switch (currentSort) {
-                    case 'price-asc': return priceA - priceB;
-                    case 'price-desc': return priceB - priceA;
-                    case 'size-asc': return a.size - b.size;
-                    case 'size-desc': return b.size - a.size;
+                    case SortOption.PRICE_ASC: return priceA - priceB;
+                    case SortOption.PRICE_DESC: return priceB - priceA;
+                    case SortOption.SIZE_ASC: return a.size - b.size;
+                    case SortOption.SIZE_DESC: return b.size - a.size;
                     default: return 0;
                 }
             });
@@ -94,7 +94,7 @@ const SkipSelectionPage = () => {
         }
 
         if (activeFilters.allowedOnRoad !== 'all') {
-            const permitRequiredFilter = activeFilters.allowedOnRoad === true; // true if filtering for "Permit Likely Needed"
+            const permitRequiredFilter = activeFilters.allowedOnRoad === true; // true if filtering for "Permit Needed"
             tempSkips = tempSkips.filter(skip => !skip.allowed_on_road === permitRequiredFilter);
         }
 
@@ -104,7 +104,7 @@ const SkipSelectionPage = () => {
 
     const currentSelectedSkip = selectedSkipId ? skips.find(s => s.id === selectedSkipId) || null : null;
 
-    const areControlsActive = currentSort !== 'default' || activeFilters.allowsHeavyWaste !== 'all';
+    const areControlsActive = currentSort !== SortOption.DEFAULT || activeFilters.allowsHeavyWaste !== 'all';
 
     return (
         <>

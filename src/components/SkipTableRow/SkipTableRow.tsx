@@ -12,7 +12,6 @@ interface SkipTableRowProps {
 const formatPrice = (price: number): string => `£${price.toFixed(2)}`;
 
 const SkipTableRow: React.FC<SkipTableRowProps> = ({ skip, isSelected, onSelect }) => {
-    console.log(`Rendering SkipTableRow: ${skip.size} Yard, Selected: ${isSelected}`);
     const totalPrice = skip.price_before_vat * (1 + skip.vat / 100);
 
     return (
