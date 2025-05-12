@@ -1,6 +1,6 @@
 import { fetchSkips } from "@/services";
 import type { ActiveFilters, LayoutView, Skip, SortOption } from "@/types";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Controls, SkipList, SkipRecap } from "@/components";
 
 const defaultFilters: ActiveFilters = {
@@ -17,9 +17,9 @@ const SkipSelectionPage = () => {
     const [currentSort, setCurrentSort] = useState<SortOption>('default');
     const [activeFilters, setActiveFilters] = useState<ActiveFilters>(defaultFilters);
 
-    const handleDeselectSkip = () => {
+    const handleDeselectSkip = useCallback(() => {
         setSelectedSkipId(null);
-    };
+    }, []);
 
     const handleProceed = () => {
         if (selectedSkipId) {
@@ -51,23 +51,23 @@ const SkipSelectionPage = () => {
         loadSkips();
     }, []);
 
-    const handleSelectSkip = (id: number) => {
+    const handleSelectSkip = useCallback((id: number) => {
         setSelectedSkipId(prevId => (prevId === id ? null : id));
-    };
+    }, []);
 
-    const handleFilterChange = (updatedFilter: Partial<ActiveFilters>) => {
+    const handleFilterChange = useCallback((updatedFilter: Partial<ActiveFilters>) => {
         setActiveFilters(prevFilters => {
             const newFilters = { ...prevFilters, ...updatedFilter };
             if (newFilters.allowsHeavyWaste === undefined) newFilters.allowsHeavyWaste = 'all';
             if (newFilters.allowedOnRoad === undefined) newFilters.allowedOnRoad = 'all';
             return newFilters;
         });
-    };
+    }, []);
 
-    const handleResetControls = () => {
+    const handleResetControls = useCallback(() => {
         setCurrentSort('default');
         setActiveFilters(defaultFilters);
-    };
+    }, []);
 
     const processedSkips = useMemo(() => {
         let tempSkips = [...skips];

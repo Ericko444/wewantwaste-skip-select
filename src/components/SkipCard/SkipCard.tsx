@@ -1,7 +1,7 @@
 import type { Skip } from "@/types";
 import { faCalendarAlt, faCheckCircle, faDumpster, faExclamationTriangle, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import type React from "react";
+import React from "react";
 
 interface SkipCardProps {
     skip: Skip;
@@ -93,4 +93,4 @@ const SkipCard: React.FC<SkipCardProps> = ({ skip, isSelected, onSelect }) => {
     );
 }
 
-export default SkipCard;
+export default React.memo(SkipCard);
