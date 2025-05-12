@@ -3,11 +3,6 @@ import { DEFAULT_FILTERS, LayoutView, SortOption, type ActiveFilters, type Skip 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Controls, SkipList, SkipRecap } from "@/components";
 
-const defaultFilters: ActiveFilters = {
-    allowsHeavyWaste: 'all',
-    allowedOnRoad: 'all',
-};
-
 const SkipSelectionPage = () => {
     const [skips, setSkips] = useState<Skip[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
